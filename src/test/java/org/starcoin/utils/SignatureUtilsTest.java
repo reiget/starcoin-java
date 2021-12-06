@@ -84,4 +84,17 @@ public class SignatureUtilsTest {
 
         verify(message.getBytes(StandardCharsets.UTF_8),m,publicKey);
     }
+
+    @Test
+    public void testSign2() {
+        String privateKeyEncoded = "e424e16db235e3f3b9ef2475516c51d4c15aa5287ceb364213698bd551eab4f2";
+        String publicKeyEncoded = "704148879e1341243f754d62fa5228529ccb207be6bd3af20b2c5422f6f234d8";
+        String message = "Example personal_sign message 中文";
+        Ed25519PrivateKey privateKey = SignatureUtils.strToPrivateKey(privateKeyEncoded);
+        byte[] m = SignatureUtils.ed25519Sign(privateKey, message.getBytes(StandardCharsets.UTF_8));
+
+        Ed25519PublicKeyParameters publicKey = new Ed25519PublicKeyParameters(Hex.decode(publicKeyEncoded), 0);
+
+        verify(message.getBytes(StandardCharsets.UTF_8),m,publicKey);
+    }
 }
